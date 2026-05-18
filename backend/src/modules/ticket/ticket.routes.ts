@@ -8,6 +8,6 @@ const router = Router();
 router.post('/', create)
 router.get('/', list)
 router.patch('/:id/status', update)
-router.get('/', )
+// router.get('/', )
 
 export {router as ticketRoutes}

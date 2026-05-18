@@ -19,7 +19,7 @@ export const createTicket = async (data: {
   }
   return prisma.ticket.create({ data })
 }
-
+ 
 export const listTickets = ({page, status}: {page:number, status:string}) => {
   const limit = 10;
   const offset = (page - 1) * 10;

@@ -19,7 +19,7 @@ model Ticket {
 
   status       String @default("OPEN")
   priority     String @default("MEDIUM")
-  ticketNumber Int    @unique @default(autoincrement())
+  ticketNumber Int?   @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
