@@ -49,6 +49,10 @@ export const listTickets = ({page, status, ticketNumber}: {page:number, status?:
 }
 
 export const deleteUnique = async ({ticketNumber}:{ticketNumber:number}) => {
+  const hasTicket = await prisma.ticket.findUnique({
+    where:{ticketNumber}
+  })
+   if(!hasTicket) throw new AppError('Ticket nao encontrado', 404)
   const ticket = await prisma.ticket.delete({
     where : {ticketNumber}
   })

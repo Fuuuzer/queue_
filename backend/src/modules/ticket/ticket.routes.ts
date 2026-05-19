@@ -5,10 +5,10 @@ const router = Router();
 
 // router.get('/')
 
-router.post('/', create)
-router.get('/', list)
-router.patch('/:id/status', update)
-router.delete('/:id', remove)
+router.post('/', create);
+router.get('/', list);
+router.patch('/:id/status', update);
+router.delete('/:id', remove);
 // router.get('/', )
 
 export {router as ticketRoutes}

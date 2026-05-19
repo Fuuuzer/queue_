@@ -43,7 +43,7 @@ export const update = async(
   res.status(200).json({
     success: true,
     data: ticket,
-    message: 'Status do ticket atualziado'
+    message: 'Status do ticket atualizado'
   })
 }
 
