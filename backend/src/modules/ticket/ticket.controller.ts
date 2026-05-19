@@ -22,8 +22,10 @@ export const list = async(
   const pageQuery = req.query.page;
   const page = Number(pageQuery) || 1;
   const status = req.query.status as string;
+  const ticketQueryNumber = req.query.ticketNumber
+  const ticketNumber = ticketQueryNumber ? Number(ticketQueryNumber) : undefined;
 
-  const tickets = await listTickets({page, status});
+  const tickets = await listTickets({page, status, ticketNumber});
   res.status(200).json({
     success: true,
     data: tickets,
