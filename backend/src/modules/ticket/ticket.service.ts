@@ -14,12 +14,24 @@ export const createTicket = async (data: {
   title: string;
   description: string;
 }) => {
-  if(!data.title || !data.description) {
-    throw new AppError("Título e descrição são obrigatórios", 400);
-  }
-  return prisma.ticket.create({ data })
-}
- 
+  let nextNumber = 1;
+      if(!data.title || !data.description) {
+      throw new AppError("Título e descrição são obrigatórios", 400);
+    }
+    const biggestTicketNumber = await prisma.ticket.findFirst({
+      orderBy: { ticketNumber: "desc"},
+    })
+    if(biggestTicketNumber) {
+      nextNumber = biggestTicketNumber.ticketNumber + 1;
+    }
+
+    return prisma.ticket.create({ data: {
+      title: data.title,
+      description: data.description,
+      ticketNumber: nextNumber
+    } })
+}   
+  
 export const listTickets = ({page, status}: {page:number, status:string}) => {
   const limit = 10;
   const offset = (page - 1) * 10;
