@@ -48,6 +48,13 @@ export const listTickets = ({page, status, ticketNumber}: {page:number, status?:
   })
 }
 
+export const deleteUnique = async ({ticketNumber}:{ticketNumber:number}) => {
+  const ticket = await prisma.ticket.delete({
+    where : {ticketNumber}
+  })
+  return ticket
+}
+
 export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumber: number, newStatus:string}) => {
   const ticket = await prisma.ticket.findUnique({ where: {ticketNumber} });
   if (!ticket) {

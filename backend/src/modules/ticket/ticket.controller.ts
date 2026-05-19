@@ -1,4 +1,4 @@
-import { createTicket, listTickets, updateTicketStatus } from "./ticket.service"
+import { createTicket, deleteUnique, listTickets, updateTicketStatus } from "./ticket.service"
 import { Request, Response } from "express";
 
 
@@ -45,4 +45,17 @@ export const update = async(
     data: ticket,
     message: 'Status do ticket atualziado'
   })
+}
+
+export const remove = async(
+  req: Request,
+  res:  Response
+) => {
+const ticketNumber = Number(req.params.id);
+ const ticket = await deleteUnique({ticketNumber})
+ res.status(200).json({
+  success: true,
+  data:ticket,
+  message: 'Ticket Deletado',
+ })
 }
