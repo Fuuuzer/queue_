@@ -62,6 +62,8 @@ GET /tickets?page=1&status=OPEN
 ### Atualizar status
 PATCH /tickets/:id/status
 
+### Deletar ticket
+DELETE /tickets/:id
 
 
 
