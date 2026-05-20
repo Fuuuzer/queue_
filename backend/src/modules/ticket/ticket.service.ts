@@ -70,24 +70,23 @@ export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumbe
     throw new AppError('Transição de status inválida', 400)
   }
   const oldStatus = statusAtual;
-
-   await prisma.ticketHistory.create({
+  await prisma.$transaction(async (tx) => {
+    await tx.ticketHistory.create({
     data: {
-      ticketId : ticket.id,
+      ticketId: ticket.id,
       from: oldStatus,
-      to : newStatus
+      to: newStatus
     }
+    });
+
+    return await tx.ticket.update({
+    where: { ticketNumber },
+    data: { status: newStatus }
+    });
+
   })
 
   // console.log("Ticket vindo do banco:", ticket);
   // console.log("Status atual:", ticket.status);
   // console.log("Novo status:", newStatus);
-  return await prisma.ticket.update({
-    where: {
-      ticketNumber
-    }, 
-    data: {
-      status: newStatus
-    }
-  })
-}
+  }
