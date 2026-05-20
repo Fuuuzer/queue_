@@ -19,10 +19,24 @@ model Ticket {
 
   status       String @default("OPEN")
   priority     String @default("MEDIUM")
-  ticketNumber Int   @unique
+  ticketNumber Int    @unique
+
+  history TicketHistory[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("tickets")
+}
+
+model TicketHistory {
+  id String @id @default(uuid())
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
+
+  from String
+  to   String
+
+  createdAt DateTime @default(now())
 }
