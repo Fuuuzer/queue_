@@ -19,3 +19,15 @@ model Ticket {
 
   @@map("tickets")
 }
+
+model TicketHistory {
+  id String @id @default(uuid())
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
+
+  from String
+  to   String
+
+  createdAt DateTime @default(now())
+}

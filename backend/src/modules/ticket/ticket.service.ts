@@ -1,14 +1,14 @@
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
 
-const status = ['OPEN', 'IN_PROGRESS', 'CLOSED', 'RESOLVED'];
-
 const transitions = {
   OPEN: ['IN_PROGRESS', 'CLOSED', 'RESOLVED'],
   IN_PROGRESS: ['CLOSED', 'RESOLVED'],
   CLOSED: [],
   RESOLVED : ['OPEN']
 }as Record<string, string[]>
+
+type Status = keyof typeof transitions; //transforma status = OPEN | IN_PROGRESS | CLOSED | RESOLVED 
 
 export const createTicket = async (data: {
   title: string;
@@ -42,7 +42,7 @@ export const listTickets = ({page, status, ticketNumber}: {page:number, status?:
     take: limit,
     skip: offset,
     orderBy: {
-      createdAt: "desc"
+      createdAt: "asc"
     },
     where: where
   })
@@ -59,21 +59,34 @@ export const deleteUnique = async ({ticketNumber}:{ticketNumber:number}) => {
   return ticket
 }
 
-export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumber: number, newStatus:string}) => {
+export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumber: number, newStatus:Status}) => {
+
   const ticket = await prisma.ticket.findUnique({ where: {ticketNumber} });
   if (!ticket) {
     throw new AppError('Ticket nao encontrado', 404)
   }
-  const statusAtual = ticket.status as keyof typeof transitions;
+  const statusAtual = ticket.status as keyof typeof transitions; //garante que o valor recebido eh valido
   if (!transitions[statusAtual].includes(newStatus)) {
     throw new AppError('Transição de status inválida', 400)
   }
-  return await prisma.ticket.update({
-    where: {
-      ticketNumber
-    }, 
+  const oldStatus = statusAtual;
+  await prisma.$transaction(async (tx) => {
+    await tx.ticketHistory.create({
     data: {
-      status: newStatus
+      ticketId: ticket.id,
+      from: oldStatus,
+      to: newStatus
     }
+    });
+
+    return await tx.ticket.update({
+    where: { ticketNumber },
+    data: { status: newStatus }
+    });
+
   })
-}
+
+  // console.log("Ticket vindo do banco:", ticket);
+  // console.log("Status atual:", ticket.status);
+  // console.log("Novo status:", newStatus);
+  }
