@@ -10,9 +10,20 @@ export const createUser = async (data: {
   if(!data.name || !data.email || !data.password){
     throw new AppError('É necessário preencher um nome, email e senha.', 400)
   }
-  await prisma.user.create({ data: {
+  const userExists = await prisma.user.findUnique({ 
+    where: {
+      email: data.email
+    }
+  })
+
+  if(userExists) {
+    throw new AppError('nao foi possivel cadastrar o usuario', 401) 
+  }
+
+   return await prisma.user.create({ data: {
     name: data.name,
     email: data.email,
     password: data.password,
   }})
+
 }
