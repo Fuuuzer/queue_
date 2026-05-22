@@ -71,6 +71,11 @@ export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumbe
   }
   const oldStatus = statusAtual;
   await prisma.$transaction(async (tx) => {
+    await tx.ticket.update({
+    where: { ticketNumber },
+    data: { status: newStatus }
+    });
+
     await tx.ticketHistory.create({
     data: {
       ticketId: ticket.id,
@@ -79,10 +84,6 @@ export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumbe
     }
     });
 
-    return await tx.ticket.update({
-    where: { ticketNumber },
-    data: { status: newStatus }
-    });
 
   })
 

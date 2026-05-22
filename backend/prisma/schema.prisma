@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,18 +8,16 @@ datasource db {
 }
 
 model Ticket {
-  id          String @id @default(uuid())
-  title       String
-  description String
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  status       String   @default("OPEN")
+  priority     String   @default("MEDIUM")
+  ticketNumber Int      @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  status       String @default("OPEN")
-  priority     String @default("MEDIUM")
-  ticketNumber Int    @unique
-
-  history TicketHistory[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  histories TicketHistory[]
 
   @@map("tickets")
 }
