@@ -1,5 +1,6 @@
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
+import bcrypt from 'bcryptjs'
 
 
 export const createUser = async (data: {
@@ -17,13 +18,18 @@ export const createUser = async (data: {
   })
 
   if(userExists) {
-    throw new AppError('nao foi possivel cadastrar o usuario', 401) 
+    throw new AppError('nao foi possivel cadastrar o usuario', 409) 
   }
 
-   return await prisma.user.create({ data: {
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+
+   return await prisma.user.create({ 
+    data: 
+    {
     name: data.name,
     email: data.email,
-    password: data.password,
-  }})
-
+    password: hashedPassword,
+   },
+   select: {name: true, email: true}
+})
 }
