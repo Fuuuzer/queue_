@@ -18,7 +18,7 @@ aplicação completa de gerenciamento de tickets com backend estruturado (clean 
 - Express
 - TypeScript
 - Prisma
-- MySQL (Docker)
+- Neon (postgresql)
 
 ### Frontend
 - Em desenvolvimento (iniciado com Vite)
@@ -35,22 +35,6 @@ npm run dev
 
 
 
-
-### 🐳 Subindo banco com Docker
-
-```
-docker run --name mysql-ticket \
--e MYSQL_ROOT_PASSWORD=123456 \
--e MYSQL_DATABASE=tickets \
--p 3306:3306 \
--d mysql
-```
-
-
-
-
-
-
 ## 📌 API
 
 ### Criar ticket
@@ -64,6 +48,12 @@ PATCH /tickets/:id/status
 
 ### Deletar ticket
 DELETE /tickets/:id
+
+
+
+## Banco de Dados 🎲🎲
+
+O projeto utiliza PostgreSQL hospedado no Neon.
 
 
 
