@@ -17,7 +17,7 @@ export const createUser = async (data: {
   })
 
   if(userExists) {
-    throw new AppError('nao foi possivel cadastrar o usuario', 401) 
+    throw new AppError('nao foi possivel cadastrar o usuario', 409) 
   }
 
    return await prisma.user.create({ data: {
