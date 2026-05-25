@@ -6,7 +6,8 @@ import { userRoutes } from "./modules/user/user.routes";
 const app = express();
 
 app.use(express.json());
-app.use('/tickets', ticketRoutes)
-app.use('/users', userRoutes)
+app.use('/tickets', ticketRoutes);
+app.use('/users', userRoutes);
+app.use('/auth', userRoutes);
 app.use(errorHandler);
 export default app;
