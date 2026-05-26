@@ -1,6 +1,7 @@
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 
 
@@ -26,17 +27,16 @@ export const createUser = async (data: {
   if(!data.name || !data.email || !data.password){
     throw new AppError('É necessário preencher um nome, email e senha.', 400)
   }
-  console.log('1')
+
   const userExists = await prisma.user.findUnique({ 
     where: {
       email: data.email
     }
   })
-  console.log('2')
+
   if(userExists) {
     throw new AppError('nao foi possivel cadastrar o usuario', 409) 
   }
-  console.log('3')
   const hashedPassword = await bcrypt.hash(data.password, 10);
 
    return await prisma.user.create({ 
