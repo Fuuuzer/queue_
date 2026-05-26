@@ -2,7 +2,6 @@ import express from "express";
 import { ticketRoutes } from "./modules/ticket/ticket.routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import { userRoutes } from "./modules/user/user.routes";
-import { userValidate } from "./modules/auth/auth.service";
 import { authRoutes } from "./modules/auth/auth.routes";
 
 const app = express();
