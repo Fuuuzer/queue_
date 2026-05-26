@@ -2,17 +2,16 @@ import express from "express";
 import { ticketRoutes } from "./modules/ticket/ticket.routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import { userRoutes } from "./modules/user/user.routes";
-import { userValidaTest } from "./modules/auth/auth.service";
+import { userValidate } from "./modules/auth/auth.service";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 const app = express();
 
 app.use(express.json());
 app.use('/tickets', ticketRoutes)
 app.use('/users', userRoutes)
-// app.use('/auth', validateRoutes)
+app.use('/auth', authRoutes)
 app.use(errorHandler);
-
-console.log(userValidaTest)
 
 
 
