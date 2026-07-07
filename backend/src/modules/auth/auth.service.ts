@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 export const userValidate = async (data:
   {email: string; password:string;} ) => {
     if(!data.email || !data.password) {
-      throw new AppError("digite algo primeiro", 404)
+      throw new AppError("digite algo primeiro", 400)
     }
   const hasUser = await prisma.user.findUnique({
       where:{
@@ -15,12 +15,12 @@ export const userValidate = async (data:
     })   
 
   if(!hasUser) {
-  throw new AppError('usuario invalido', 404)
+  throw new AppError('usuario invalido', 401)
 }
 const validate = await bcrypt.compare(data.password, hasUser.password)
 
 if(!validate) {
-  throw new AppError('usuario invalido 2', 404);
+  throw new AppError('usuario invalido', 401);
 } 
 
 const token = jwt.sign(

@@ -26,5 +26,4 @@ export function authHandler(
     throw new AppError('Não autorizado', 401)
   }
 
-
 }
