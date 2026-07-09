@@ -15,4 +15,14 @@ export const validate = async(
   });
 }
 
-export const
+export const validateMe = async(
+  req: Request,
+  res: Response
+) => {
+  const user = req.user;
+  res.status(200).json({
+    success: true,
+    data: user,
+    message: 'usuário autenticado'
+  });
+}

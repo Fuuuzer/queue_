@@ -8,7 +8,9 @@ export function authHandler(
   next: NextFunction
 ) {
   const authHeader = req.headers.authorization;
+  console.log(authHeader);
   if(!authHeader) {
+
     throw new AppError('Erro', 401)
   }
   const token = authHeader.split(' ')[1];
@@ -19,11 +21,9 @@ export function authHandler(
 
   try {
     const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET!)
-
     req.user = tokenDecoded;
     next()
   } catch {
     throw new AppError('Não autorizado', 401)
   }
-
 }
