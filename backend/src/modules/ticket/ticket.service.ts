@@ -83,10 +83,8 @@ export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumbe
       to: newStatus
     }
     });
-
-
   })
-
+  
   // console.log("Ticket vindo do banco:", ticket);
   // console.log("Status atual:", ticket.status);
   // console.log("Novo status:", newStatus);

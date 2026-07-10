@@ -8,7 +8,7 @@ export function authHandler(
   next: NextFunction
 ) {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
+  // console.log(authHeader); //usado para debugar o token que vem no header da requisição
   if(!authHeader) {
 
     throw new AppError('Erro', 401)
