@@ -7,6 +7,8 @@ export function errorHandler(
   res: Response,
   next: NextFunction
 ) {
+
+  console.error(err);
   let statusCode = 500;
   let message = "Erro interno no servidor";
 
