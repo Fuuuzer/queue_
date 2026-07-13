@@ -1,4 +1,4 @@
-import React from 'react'
+import {React} from 'react';
 
   interface AuthContextData {
     token: string | null;
@@ -8,5 +8,9 @@ import React from 'react'
   } // "prateleira, define os itens que ficarao disponiveis para o contexto de autenticação"
 
 const AuthContext = React.createContext<AuthContextData | undefined>(undefined); // "cria o contexto de autenticação, que será usado para fornecer e consumir os dados de autenticação em toda a aplicação"
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+
+}
 
 export default AuthContext
