@@ -11,10 +11,32 @@ const AuthContext = React.createContext<AuthContextData | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = React.useState<string | null>(
-    localStorage.getItem("token")
+    localStorage.getItem("token") // utilizei generics, para definir o tipo do estado, que pode ser string ou null.
+  );
+
+  function login(newToken: string) {
+    setToken(newToken);
+    localStorage.setItem('token', newToken)
+  }
+
+  function logout() {
+    setToken(null)
+    localStorage.removeItem('token')
+  }
+
+  return (
+    <AuthContext.Provider
+    value={{
+      token,
+      login,
+      logout,
+      isAuthenticated: token !== null,
+    }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 }
-
 
 
 export default AuthContext
