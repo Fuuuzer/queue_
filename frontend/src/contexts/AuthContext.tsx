@@ -11,6 +11,6 @@ const AuthContext = React.createContext<AuthContextData | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 
-}
+} 
 
 export default AuthContext
