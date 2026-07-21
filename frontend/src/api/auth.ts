@@ -12,14 +12,14 @@ interface User {
   role: string;
 }
 
-interface UserData {
+interface LoginData {
   token: string;
   user: User;
 }
 
 interface ResponseApi {
   success: boolean;
-  data: UserData;
+  data: LoginData;
   message: string
 }
 
@@ -27,8 +27,9 @@ interface ResponseApi {
 
 export const AuthLogin = async (credentials: LoginCredentials) => { // o tipo aqui ele puxa exatamente o que foi colocado dentro da interface
 
-  const response = await instance.post('/auth/login', {email: 'joaofuzer@gmail.com', password:'12345'});
+  const response = await instance.post<ResponseApi>('/auth/login', credentials);
   const {data: loginData, message: loginMessage} = response.data;
 
-  console.log(loginData, loginMessage)
+  return {token:loginData.token, user: loginData.user, message: loginMessage};
+  
 }
