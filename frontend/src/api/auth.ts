@@ -6,6 +6,23 @@ interface LoginCredentials {
   password: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+  role: string;
+}
+
+interface UserData {
+  token: string;
+  user: User;
+}
+
+interface ResponseApi {
+  success: boolean;
+  data: UserData;
+  message: string
+}
+
 
 
 export const AuthLogin = async (credentials: LoginCredentials) => { // o tipo aqui ele puxa exatamente o que foi colocado dentro da interface
