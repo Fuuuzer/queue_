@@ -5,7 +5,7 @@ import { AuthLogin } from '../../api/auth';
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState<string | null>();
+  const [error, setError] = React.useState<boolean | null>();
   const { login } = useAuth();
 
 
@@ -14,14 +14,16 @@ const Login = () => {
     try {
       const response = await  AuthLogin({email, password});
       login(response.token);
-      console.log('usuario logado!')
+      setError(false)
     } catch (err) {
+      setError(true)
       console.error(err)
     } 
   }
 
   return (
     <form action="" onSubmit={handleSubmit}>
+      {error && <p>Houve um erro ao cadastrar o usuário</p>}
       <label htmlFor="email">Email</label>
       <input
         id='email'

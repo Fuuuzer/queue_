@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { AuthProvider } from './contexts/AuthContext'
 
@@ -8,9 +9,13 @@ function App() {
 
   return (
     <>
-    <AuthProvider>
-      <Login /> 
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path='/login' element={<Login /> } />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
     </>
   )
 }
