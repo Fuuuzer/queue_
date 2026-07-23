@@ -9,12 +9,15 @@ const Login = () => {
   const { login } = useAuth();
 
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const token = async () => {
-      await AuthLogin({ email, password })
-      await console.log(token)
-    }
+    try {
+      const response = await  AuthLogin({email, password});
+      login(response.token);
+      console.log('usuario logado!')
+    } catch (err) {
+      console.error(err)
+    } 
   }
 
   return (
