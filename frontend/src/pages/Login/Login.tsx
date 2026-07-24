@@ -1,15 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-import { AuthLogin } from '../../api/auth'
-import { useAuth } from '../../contexts/AuthContext'
-
-const Login = () => {
-  useAuth()
-
-  return (
-
-    <div>Login</div>
-=======
 import { useAuth } from '../../contexts/AuthContext';
 import { AuthLogin } from '../../api/auth';
 
@@ -50,7 +39,6 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)} />
       <button type="submit">Enviar</button>
     </form>
->>>>>>> f48728af0b801178c28a90caaf239dec55c719c4
   )
 }
 
