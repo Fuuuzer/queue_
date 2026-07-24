@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 export const userValidate = async (data:
   {email: string; password:string;} ) => {
     if(!data.email || !data.password) {
-      throw new AppError("digite algo primeiro", 400)
+      throw new AppError("É necessário informar os dados de login", 400)
     }
   const hasUser = await prisma.user.findUnique({
       where:{
