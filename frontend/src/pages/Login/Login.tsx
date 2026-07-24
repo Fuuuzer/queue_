@@ -1,16 +1,13 @@
 import React from 'react'
-import AuthContext from '../../contexts/AuthContext'
 import { AuthLogin } from '../../api/auth'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Login = () => {
-  const [userCredentials, setUserCredentials] = React.useState<string | null>();
-  AuthLogin(userCredentials)
+  useAuth()
 
-  AuthLogin
   return (
-    <AuthContext>
+
     <div>Login</div>
-    </AuthContext>
   )
 }
 

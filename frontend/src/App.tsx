@@ -1,5 +1,5 @@
 import './App.css'
-import AuthContext from './contexts/AuthContext'
+import { AuthProvider } from './contexts/AuthContext'
 import Login from './pages/Login/Login'
 
 function App() {
@@ -7,9 +7,9 @@ function App() {
 
   return (
     <>
-    <AuthContext>
+    <AuthProvider>
       <Login /> 
-    </AuthContext>
+    </AuthProvider>
     </>
   )
 }
