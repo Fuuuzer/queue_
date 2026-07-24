@@ -5,25 +5,27 @@ import { AuthLogin } from '../../api/auth';
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState<boolean | null>();
+  const [error, setError] = React.useState<string | null>();
   const { login } = useAuth();
+  const [isRunning, setIsRunning] = React.useState<boolean>(false)
 
 
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    setIsRunning(true)
     e.preventDefault()
     try {
       const response = await  AuthLogin({email, password});
       login(response.token);
-      setError(false)
     } catch (err) {
-      setError(true)
+      setError('o que coloco aq ???')
       console.error(err)
+    } finally {
+      setIsRunning(false)
     } 
   }
 
   return (
     <form action="" onSubmit={handleSubmit}>
-      {error && <p>Houve um erro ao cadastrar o usuário</p>}
       <label htmlFor="email">Email</label>
       <input
         id='email'
@@ -37,7 +39,7 @@ const Login = () => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit">Enviar</button>
+      <button type="submit" disabled={isRunning ? true : false}>Enviar</button>
     </form>
   )
 }
