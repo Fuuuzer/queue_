@@ -6,7 +6,7 @@ import { isAxiosError } from 'axios';
 interface Feedback {
   type: 'error' | 'success';
   message: string;
-}
+} // Interface para poder unificar a questão de erro ou sucesso ao se logar
 
 const Login = () => {
   const [email, setEmail] = React.useState('');
