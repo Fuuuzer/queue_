@@ -3,30 +3,32 @@ import { useAuth } from '../../contexts/AuthContext';
 import { AuthLogin } from '../../api/auth';
 import { isAxiosError } from 'axios';
 
+interface Feedback {
+  type: 'error' | 'success';
+  message: string;
+}
+
 const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState<string | null>();
-  const [success, setSuccess] = React.useState<string | null>();
   const { login } = useAuth();
-  const [isRunning, setIsRunning] = React.useState<boolean>(false)
+  const [isRunning, setIsRunning] = React.useState<boolean>(false);
+  const [feedback, setFeedback] = React.useState<Feedback | null>(null)
 
 
    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     setIsRunning(true);
-    setError(null);
-    setSuccess(null);
     e.preventDefault();
     try {
       const response = await  AuthLogin({email, password});
       login(response.token);
-      setSuccess('Usuário logado com sucesso!')
+      setFeedback({type: 'success', message: 'Usuário logado com sucesso!'})
 
     } catch (err) {
       if (isAxiosError(err)) {
-        setError(err.response?.data.message);
+        setFeedback({type:'error',  message:err.response?.data.message});
       } else {
-        setError('Houve um erro ao fazer o login')
+        setFeedback({type: 'error', message:'Houve um erro ao fazer o login'})
       }
     } finally {
       setIsRunning(false)
@@ -35,7 +37,6 @@ const Login = () => {
 
   return (
     <form action="" onSubmit={handleSubmit}>
-      { error && <p style={error ? {color: 'red',} : {color: 'green'}}>{error || success}</p> || success && <p style={error ? {color: 'red',} : {color: 'green'}}>{error || success}</p>}
       
       <label htmlFor="email">Email</label>
       <input
