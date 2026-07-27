@@ -36,8 +36,8 @@ const Login = () => {
   }
 
   return (
-    <form action="" onSubmit={handleSubmit}>
-      
+    <form onSubmit={handleSubmit}>
+      {feedback && <p style={{color: feedback.type === 'error' ? 'red' : 'green'}} >{feedback.message}</p>}
       <label htmlFor="email">Email</label>
       <input
         id='email'
@@ -51,7 +51,7 @@ const Login = () => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit" disabled={isRunning ? true : false}>Enviar</button>
+      <button type="submit" disabled={isRunning}>Enviar</button>
     </form>
   )
 }
