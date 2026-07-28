@@ -13,9 +13,9 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path='/' element={ <Navigate to='/login' />} />
-          <Route path='/login' element={ <ProtectedRoute requireAuth={false}><Login /></ProtectedRoute> } />
-            <Route path='/tickets' element={ <ProtectedRoute requireAuth={true}><Tickets /></ProtectedRoute> } />
-          <Route path='/dashboard' element={<ProtectedRoute requireAuth={true}><Dashboard /></ProtectedRoute> } />
+          <Route path='/login' element={ <ProtectedRoute requireAuth={false} navigateTo='/tickets'><Login /></ProtectedRoute> } />
+            <Route path='/tickets' element={ <ProtectedRoute requireAuth={true} navigateTo=''><Tickets /></ProtectedRoute> } />
+          <Route path='/dashboard' element={<ProtectedRoute requireAuth={true} navigateTo=''><Dashboard /></ProtectedRoute> } />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

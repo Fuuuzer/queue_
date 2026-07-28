@@ -2,7 +2,10 @@ import React from 'react'
 
 const Tickets = () => {
   return (
-    <div>Página de tickets</div>
+    <>
+    <h1>Tickets</h1>
+    
+    </>
   )
 }
 
