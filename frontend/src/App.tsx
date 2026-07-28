@@ -4,7 +4,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import Login from './pages/Login/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Tickets from './pages/Tickets/Tickets'
-
+import ProtectedRoute from './components/ProtectedRoute'
 function App() {
 
   return (
@@ -14,8 +14,8 @@ function App() {
         <Routes>
           <Route path='/' element={ <Navigate to='/login' />} />
           <Route path='/login' element={<Login /> } />
-          <Route path='/tickets' element={<Tickets /> } />
-          <Route path='/dashboard' element={<Dashboard /> } />
+            <Route path='/tickets' element={<Tickets /> } />
+          <Route path='/dashboard' element={<ProtectedRoute requireAuth={true}><Dashboard /></ProtectedRoute> } />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

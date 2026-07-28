@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAuth } from '../contexts/AuthContext';
 
 interface ProtectedProps {
   requireAuth: boolean;
@@ -8,9 +9,13 @@ interface ProtectedProps {
 //TypeScript NÃO obriga a desestruturar todos os campos da interface
 
 const ProtectedRoute =({children, requireAuth} : ProtectedProps) => {
-  return (
-    <div>ProtectedRoute</div>
-  )
+  const { isAuthenticated } = useAuth(); //com esse hook eu consigo pegar tudo de dentro do contexto de autenticacao
+  if (requireAuth) {  
+    if (isAuthenticated) {
+      return <>{children}</>
+    }
+  }
+  return<><p>oi</p></>
 };
 
 export default ProtectedRoute

@@ -23,10 +23,9 @@ const Login = () => {
       const response = await  AuthLogin({email, password});
       login(response.token);
       setFeedback({type: 'success', message: 'Usuário logado com sucesso!'})
-
     } catch (err) {
       if (isAxiosError(err)) {
-        setFeedback({type:'error',  message:err.response?.data.message});
+        setFeedback({type:'error',  message:err.response?.data.message}); //Erro do axios
       } else {
         setFeedback({type: 'error', message:'Houve um erro ao fazer o login'})
       }
