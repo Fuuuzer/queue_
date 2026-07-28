@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 interface ProtectedProps {
   requireAuth: boolean;
@@ -15,7 +16,9 @@ const ProtectedRoute =({children, requireAuth} : ProtectedProps) => {
       return <>{children}</>
     }
   }
-  return<><p>oi</p></>
+  return (
+    <Navigate to={'/login'}/>
+  )
 };
 
 export default ProtectedRoute
