@@ -21,7 +21,9 @@ aplicação completa de gerenciamento de tickets com backend estruturado (clean 
 - Neon (postgresql)
 
 ### Frontend
-- Em desenvolvimento (iniciado com Vite)
+- React
+- React Router
+- Axios
 
 ### Rodando o backend
 
