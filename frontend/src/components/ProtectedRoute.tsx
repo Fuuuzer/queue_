@@ -11,14 +11,18 @@ interface ProtectedProps {
 
 const ProtectedRoute =({children, requireAuth} : ProtectedProps) => {
   const { isAuthenticated } = useAuth(); //com esse hook eu consigo pegar tudo de dentro do contexto de autenticacao
-  if (requireAuth) {  
-    if (isAuthenticated) {
-      return <>{children}</>
-    }
+  if (requireAuth && isAuthenticated ) {   //se requer autenticação e está autenticado
+      return children //retorna o children, pagina que eu quero acessar
+    } 
+  if(!requireAuth && !isAuthenticated) { // se não requer autenticação  não está autenticado
+    return children //retorna o children, pagina que eu quero acessar
+  } 
+  if(!requireAuth && isAuthenticated) {// se não requer autenticação e está autenticado
+     return <Navigate to={'/tickets'} />
   }
   return (
-    <Navigate to={'/login'}/>
+    <Navigate to={'/login'} />
   )
-};
+} 
 
 export default ProtectedRoute
