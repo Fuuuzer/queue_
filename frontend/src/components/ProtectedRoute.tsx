@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 
 interface ProtectedProps {
   requireAuth: boolean;
-  navigateTo: string | null;
+  navigateTo?: string | null;
   children: React.ReactNode;
 }
 //TypeScript NÃO obriga a desestruturar todos os campos da interface
