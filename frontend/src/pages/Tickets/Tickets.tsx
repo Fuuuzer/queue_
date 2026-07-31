@@ -1,6 +1,7 @@
 import React from 'react'
 import instance from '../../api/api'
 import { isAxiosError } from 'axios'
+import styles from './Tickets.module.css'
 
 
 interface TicketData {
@@ -37,18 +38,15 @@ const Tickets = () => {
   }, [])
   return (
     <>
-    {/* {tickets} */}
     <h1>Tickets</h1>
     <p>{error}</p>
     <>{tickets.map(item => (
-       <div key={item.ticketNumber}>
+       <div className={styles.ticket_container} key={item.ticketNumber}>
         <h1>{item.title}</h1>
         <p>{item.description}</p>
         <p>{item.status}</p>
        </div>
     ))}</>
- 
-    
     </>
   )
 }
