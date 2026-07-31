@@ -5,6 +5,7 @@ import styles from './Tickets.module.css'
 
 
 interface TicketData {
+  id: string,
   title: string,
   description: string,
   ticketNumber: number,
@@ -28,12 +29,15 @@ const Tickets = () => {
           }
         });
         const responseData = response.data.data
-        console.log(responseData)
         setTickets(responseData)
-        setLoading(false)
       } catch (err) {
-        if(isAxiosError(err))
-        setError(err.message || 'Something went wrong');
+        if(isAxiosError(err)) {
+          setError(err.message || 'Something went wrong');
+        } else {
+          setError('Erro inesperado')
+        }
+      } finally {
+        setLoading(false)
       }
     }
     fetchData()
@@ -45,7 +49,7 @@ const Tickets = () => {
     {loading && <p>Carregando tickets</p>}
     <div className={styles.container}>
     {tickets.map(item => (
-       <div className={styles.ticket} key={item.ticketNumber}>
+       <div className={styles.ticket} key={item.id}>
         <h1>{item.title}</h1>
         <p>{item.description}</p>
         <p>{item.status}</p>
