@@ -8,7 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 function App() {
 
   return (
-    <>
+    <main>
     <BrowserRouter>
       <AuthProvider>
         <Routes>
@@ -28,7 +28,7 @@ function App() {
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-    </>
+    </main>
   )
 }
 export default App

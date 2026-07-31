@@ -15,6 +15,7 @@ interface TicketData {
 const Tickets = () => {
   const [tickets, setTickets] = React.useState<TicketData[]>([])
   const [error, setError] = React.useState<string | null>('');
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     setError(null)
@@ -29,6 +30,7 @@ const Tickets = () => {
         const responseData = response.data.data
         console.log(responseData)
         setTickets(responseData)
+        setLoading(false)
       } catch (err) {
         if(isAxiosError(err))
         setError(err.message || 'Something went wrong');
@@ -40,13 +42,17 @@ const Tickets = () => {
     <>
     <h1>Tickets</h1>
     <p>{error}</p>
-    <>{tickets.map(item => (
-       <div className={styles.ticket_container} key={item.ticketNumber}>
+    {loading && <p>Carregando tickets</p>}
+    <div className={styles.container}>
+    {tickets.map(item => (
+       <div className={styles.ticket} key={item.ticketNumber}>
         <h1>{item.title}</h1>
         <p>{item.description}</p>
         <p>{item.status}</p>
        </div>
-    ))}</>
+      ))
+    }
+    </div>
     </>
   )
 }
