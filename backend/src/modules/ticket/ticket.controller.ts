@@ -6,7 +6,11 @@ export const create = async(
   req: Request,
   res:  Response
 ) => {
-  const ticket = await createTicket(req.body);
+  const ticket = await createTicket({
+    title: req.body.title,
+    description: req.body.description,
+    user: req.user.sub
+  });
   res.status(201)
   .json({
     success: true, 
