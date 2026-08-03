@@ -29,7 +29,7 @@ export const list = async(
   const ticketQueryNumber = req.query.ticketNumber
   const ticketNumber = ticketQueryNumber ? Number(ticketQueryNumber) : undefined;
 
-  const tickets = await listTickets({page, status, ticketNumber});
+  const tickets = await listTickets({page, status, ticketNumber, userId: req.user.sub, userRole: req.user.role});
   res.status(200).json({
     success: true,
     data: tickets,

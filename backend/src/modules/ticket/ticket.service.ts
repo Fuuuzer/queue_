@@ -33,12 +33,15 @@ export const createTicket = async (data: {
     } })
 }   
 
-export const listTickets = ({page, status, ticketNumber}: {page:number, status?:string, ticketNumber?:number}) => {
+export const listTickets = ({page, status, ticketNumber, userId, userRole}: {page:number, status?:string, ticketNumber?:number, userId: string, userRole: UserRole}) => {
   const limit = 10;
   const offset = (page - 1) * 10;
-  const where: Record<string, any> = {}
+  const where: Record<string, any> = {};
+  if(userRole === 'USER'){
+    where.userId = userId
+  }
   if(status) where.status = status;
-  if(ticketNumber) where.ticketNumber = ticketNumber
+  if(ticketNumber) where.ticketNumber = ticketNumber;
   return prisma.ticket.findMany({
     take: limit,
     skip: offset,
