@@ -9,7 +9,7 @@ export const create = async(
   const ticket = await createTicket({
     title: req.body.title,
     description: req.body.description,
-    user: req.user.sub
+    userId: req.user.sub
   });
   res.status(201)
   .json({

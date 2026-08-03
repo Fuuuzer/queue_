@@ -1,6 +1,5 @@
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
-import jwt from 'jsonwebtoken';
 
 const transitions = {
   OPEN: ['IN_PROGRESS', 'CLOSED', 'RESOLVED'],
@@ -14,7 +13,7 @@ type Status = keyof typeof transitions; //transforma status = OPEN | IN_PROGRESS
 export const createTicket = async (data: {
   title: string;
   description: string;
-  user: string;
+  userId: string;
 }) => {
   let nextNumber = 1;
       if(!data.title || !data.description) {
@@ -26,16 +25,14 @@ export const createTicket = async (data: {
     if(biggestTicketNumber) {
       nextNumber = biggestTicketNumber.ticketNumber + 1;
     }
-      console.log(data)
-
     return prisma.ticket.create({ data: {
       title: data.title,
       description: data.description,
       ticketNumber: nextNumber,
-      userId: data.user
+      userId: data.userId
     } })
 }   
-  
+
 export const listTickets = ({page, status, ticketNumber}: {page:number, status?:string, ticketNumber?:number}) => {
   const limit = 10;
   const offset = (page - 1) * 10;
