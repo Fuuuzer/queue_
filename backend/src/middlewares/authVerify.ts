@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import AppError from "../errors/AppError";
 
 export function authHandler(
@@ -20,7 +20,7 @@ export function authHandler(
 
   try {
     const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET!)
-    req.user = tokenDecoded;
+    req.user = tokenDecoded as TokenPayload;
     next()
   } catch (err) {
       console.log(err)

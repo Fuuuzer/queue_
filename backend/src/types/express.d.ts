@@ -1,5 +1,5 @@
 declare global {
-  interface JwtPayload {
+  interface TokenPayload {
     sub: string;
     role: 'USER' | 'SUPPORT' | 'ADMIN'
   }
@@ -7,7 +7,7 @@ declare global {
   type UserRole = 'USER' | 'ADMIN' | 'SUPPORT';
   namespace Express {
     interface Request {
-      user: JwtPayload
+      user: TokenPayload
     }
   }
 }
