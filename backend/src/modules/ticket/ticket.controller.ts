@@ -15,7 +15,7 @@ export const create = async(
   .json({
     success: true, 
     data: ticket,
-    message: 'ticket criado com sucesso'
+    message: 'ticket criado com sucesso!'
   });
 }
 
@@ -43,11 +43,11 @@ export const update = async(
 ) => {
   const ticketNumber = Number(req.params.id);
   const newStatus = req.body.status as string;
-  const ticket = await updateTicketStatus({ticketNumber, newStatus});
+  const ticket = await updateTicketStatus({ticketNumber, newStatus, userRole: req.user.role});
   res.status(200).json({
     success: true,
     data: ticket,
-    message: 'Status do ticket atualizado'
+    message: 'Status do ticket atualizado com sucesso!'
   })
 }
 
@@ -56,10 +56,10 @@ export const remove = async(
   res:  Response
 ) => {
 const ticketNumber = Number(req.params.id);
- const ticket = await deleteUnique({ticketNumber})
+ const ticket = await deleteUnique({ticketNumber, userRole:req.user.role})
  res.status(200).json({
   success: true,
   data:ticket,
-  message: 'Ticket Deletado',
+  message: 'Ticket Deletado com sucesso!',
  })
 }

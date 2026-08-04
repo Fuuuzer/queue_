@@ -52,27 +52,28 @@ export const listTickets = ({page, status, ticketNumber, userId, userRole}: {pag
   })
 }
 
-export const deleteUnique = async ({ticketNumber}:{ticketNumber:number}) => {
+export const deleteUnique = async ({ticketNumber, userRole}:{ticketNumber:number, userRole:UserRole}) => {
+  if(userRole !== 'ADMIN') throw new AppError('Você não possui autorização necessária para fazer isso', 403)
   const hasTicket = await prisma.ticket.findUnique({
     where:{ticketNumber}
   })
    if(!hasTicket) throw new AppError('Ticket nao encontrado', 404)
   const ticket = await prisma.ticket.delete({
     where : {ticketNumber}
-  })
+  });
   return ticket
 }
 
-export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumber: number, newStatus:Status}) => {
-
+export const updateTicketStatus = async ({ticketNumber, newStatus, userRole}: {ticketNumber: number, newStatus:Status, userRole:UserRole}) => {
+  if(userRole === 'USER') throw new AppError('Você não possui autorização necessária para fazer isso', 403);
   const ticket = await prisma.ticket.findUnique({ where: {ticketNumber} });
   if (!ticket) {
-    throw new AppError('Ticket nao encontrado', 404)
-  }
+    throw new AppError('Ticket nao encontrado', 404);
+  };
   const statusAtual = ticket.status as keyof typeof transitions; //garante que o valor recebido eh valido
   if (!transitions[statusAtual].includes(newStatus)) {
-    throw new AppError('Transição de status inválida', 400)
-  }
+    throw new AppError('Transição de status inválida', 400);
+  };
   const oldStatus = statusAtual;
   await prisma.$transaction(async (tx) => {
     await tx.ticket.update({
@@ -87,8 +88,7 @@ export const updateTicketStatus = async ({ticketNumber, newStatus}: {ticketNumbe
       to: newStatus
     }
     });
-  })
-  
+  });
   // console.log("Ticket vindo do banco:", ticket);
   // console.log("Status atual:", ticket.status);
   // console.log("Novo status:", newStatus);
