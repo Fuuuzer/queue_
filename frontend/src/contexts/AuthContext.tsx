@@ -10,7 +10,8 @@ interface AuthContextData {
 
 const AuthContext = React.createContext<AuthContextData | undefined>(undefined); // cria o contexto de autenticação, que será usado para fornecer e consumir os dados de autenticação em toda a aplicação
 
-export function AuthProvider({ children }: { children: React.ReactNode }) { // utilizei generics, para definir o tipo do estado, que pode ser string ou null.
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+   // utilizei generics, para definir o tipo do estado, que pode ser string ou null.
   const [token, setToken] = React.useState<string | null>(() =>{
     const tokenStored = localStorage.getItem("token");
     if(isTokenExpired(tokenStored)) {
@@ -19,8 +20,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) { // u
       return null
     }
     return tokenStored
-    } 
+    }
   );
+
+  React.useEffect(() => {
+    window.addEventListener('auth:expired', logout)
+
+    return () => {
+      window.removeEventListener('auth:expired', logout)
+    }
+  }, [])
 
   function login(newToken: string) {
     setToken(newToken);
@@ -31,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) { // u
     setToken(null)
     localStorage.removeItem('token')
   }
+
   return (
     <AuthContext.Provider
     value={{
@@ -52,5 +62,4 @@ export function useAuth() {
   }
   return context
 }
-
 export default AuthContext
