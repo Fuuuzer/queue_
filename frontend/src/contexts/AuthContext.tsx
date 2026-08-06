@@ -10,8 +10,8 @@ interface AuthContextData {
 const AuthContext = React.createContext<AuthContextData | undefined>(undefined); // cria o contexto de autenticação, que será usado para fornecer e consumir os dados de autenticação em toda a aplicação
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = React.useState<string | null>(
-    localStorage.getItem("token") // utilizei generics, para definir o tipo do estado, que pode ser string ou null.
+  const [token, setToken] = React.useState<string | null>( // utilizei generics, para definir o tipo do estado, que pode ser string ou null.
+    localStorage.getItem("token")
   );
 
   function login(newToken: string) {
@@ -42,7 +42,6 @@ export function useAuth() {
   if (!context) {
     throw new Error('useAuth precisa ser usado dentro de um AuthProvider');
   }
-
   return context
 }
 
