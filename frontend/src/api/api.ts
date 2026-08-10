@@ -4,6 +4,15 @@ const instance = axios.create({
   baseURL: 'http://localhost:3000'
 });
 
+interface TicketData {
+  title: string,
+  description: string
+}
+
+interface ResponseTicketApi {
+  
+}
+
 
 instance.interceptors.response.use(
   function (response) {
@@ -29,5 +38,9 @@ instance.interceptors.request.use(
     return Promise.reject(err)
   }
 )
+
+export const CreateTicket = async (ticketData: TicketData) => {
+  const response = await instance.post<>
+}
 
 export default instance
