@@ -15,19 +15,14 @@ interface TicketData {
 
 const Tickets = () => {
   const [tickets, setTickets] = React.useState<TicketData[]>([])
-  const [error, setError] = React.useState<string | null>('');
+  const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     setError(null)
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token')
-        const response = await instance.get('/tickets', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await instance.get('/tickets');
         const responseData = response.data.data
         setTickets(responseData)
       } catch (err) {
