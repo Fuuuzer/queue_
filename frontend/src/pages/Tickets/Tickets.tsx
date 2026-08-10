@@ -48,11 +48,11 @@ const Tickets = () => {
     <p>{error}</p>
     {loading && <p>Carregando tickets</p>}
     <div className={styles.container}>
-    {tickets.map(item => (
-       <div className={styles.ticket} key={item.id}>
-        <h1>{item.title}</h1>
-        <p>{item.description}</p>
-        <p>{item.status}</p>
+    {tickets.map(ticket => (
+       <div className={styles.ticket} key={ticket.id}>
+        <h1>{ticket.title}</h1>
+        <p>{ticket.description}</p>
+        <p>{ticket.status}</p>
        </div>
       ))
     }

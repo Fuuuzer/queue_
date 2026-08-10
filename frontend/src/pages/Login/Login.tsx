@@ -29,10 +29,10 @@ const Login = () => {
       } else {
         setFeedback({type: 'error', message:'Houve um erro ao fazer o login'})
       }
-    } finally {
-      setIsRunning(false)
-    } 
-  }
+      } finally {
+        setIsRunning(false)
+      } 
+    }
 
   return (
     <form onSubmit={handleSubmit}>
