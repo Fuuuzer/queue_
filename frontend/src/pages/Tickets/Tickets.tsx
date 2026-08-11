@@ -2,6 +2,7 @@ import React from 'react'
 import instance from '../../api/api'
 import { isAxiosError } from 'axios'
 import styles from './Tickets.module.css'
+import TestTicket from '../TestTicket'
 
 
 interface TicketData {
@@ -39,6 +40,7 @@ const Tickets = () => {
   }, [])
   return (
     <>
+    <TestTicket />
     <h1>Tickets</h1>
     <p>{error}</p>
     {loading && <p>Carregando tickets</p>}

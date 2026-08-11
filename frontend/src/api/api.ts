@@ -4,15 +4,28 @@ const instance = axios.create({
   baseURL: 'http://localhost:3000'
 });
 
-interface TicketData {
+interface TicketPayload {
   title: string,
-  description: string
+  description: string;
 }
 
-interface ResponseTicketApi {
-  
+interface TicketResponseData {
+  createdAt: string;
+  description: string;
+  id: string;
+  priority: "LOW" | "MEDIUM" | 'CRITICAL';
+  status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
+  updatedAt: string;
+  userId: string;
+  ticketNumber: number;
+  title: string,
 }
 
+interface TicketResponseAPI {
+  success: boolean;
+  data: TicketResponseData;
+  message: string;
+}
 
 instance.interceptors.response.use(
   function (response) {
@@ -39,8 +52,11 @@ instance.interceptors.request.use(
   }
 )
 
-export const CreateTicket = async (ticketData: TicketData) => {
-  const response = await instance.post<>
+export const createTicket = async (ticketFormData: TicketPayload) => {
+  const response = await instance.post<TicketResponseAPI>('/tickets', ticketFormData);
+  const {data: ticketData, message: ticketMessage} = response.data;
+
+  return {data: ticketData, message: ticketMessage}
 }
 
 export default instance
