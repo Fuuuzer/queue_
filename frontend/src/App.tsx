@@ -5,7 +5,7 @@ import Login from './pages/Login/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Tickets from './pages/Tickets/Tickets'
 import ProtectedRoute from './components/ProtectedRoute'
-import CreateTicketForm from './components/CreateTicketForm'
+import CreateTicketForm from './pages/CreateTicket/CreateTicket'
 function App() {
 
   return (
