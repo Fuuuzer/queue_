@@ -5,9 +5,16 @@ interface NewTicket {
   description: string;
 }
 
+interface TicketPayload {
+  title: string;
+  description: string;
+  ticketNumber: number;
+  userId: string
+}
+
 interface ResponseTicketApi {
   success: boolean;
-  data: NewTicket;
+  data: TicketPayload;
   message: string
 }
 
