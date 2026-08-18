@@ -5,3 +5,14 @@ interface NewTicket {
   description: string;
 }
 
+interface ResponseTicketApi {
+  success: boolean;
+  data: NewTicket;
+  message: string
+}
+
+export const createTicket = async (ticketData: NewTicket) => {
+  const response = await instance.post<ResponseTicketApi>('/tickets', ticketData)
+  console.log(response)
+}
+

@@ -1,4 +1,5 @@
 import React from 'react'
+import { createTicket } from '../../api/tickets';
 
 const CreateTicketForm = () => {
   const [title, setTitle] = React.useState<string>('')
@@ -7,7 +8,10 @@ const CreateTicketForm = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
    e.preventDefault();
    try {
-    const response = await 
+    const response = await createTicket({title, description})
+    console.log(response)
+   } catch (err){
+    console.error(err)
    }
   }
 
