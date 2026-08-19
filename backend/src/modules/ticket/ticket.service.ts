@@ -31,25 +31,27 @@ export const createTicket = async (data: {
       ticketNumber: nextNumber,
       userId: data.userId
     } })
-}   
+}
 
-export const listTickets = ({page, status, ticketNumber, userId, userRole}: {page:number, status?:string, ticketNumber?:number, userId: string, userRole: UserRole}) => {
-  const limit = 10;
-  const offset = (page - 1) * 10;
+export const listTickets = async ({page, status, ticketNumber, userId, userRole}: {page:number, status?:string, ticketNumber?:number, userId: string, userRole: UserRole}) => {
+  const limit = 20;
+  const offset = (page - 1) * limit;
   const where: Record<string, any> = {};
   if(userRole === 'USER'){
     where.userId = userId
   }
   if(status) where.status = status;
   if(ticketNumber) where.ticketNumber = ticketNumber;
-  return prisma.ticket.findMany({
-    take: limit,
-    skip: offset,
-    orderBy: {
-      createdAt: "asc"
-    },
-    where: where
-  })
+
+   const [tickets, total] = await Promise.all([
+      prisma.ticket.findMany({take: limit, skip:offset, orderBy: { createdAt: "asc"}, where: where}),
+      prisma.ticket.count({where: where})
+    ])
+    const totalPages = Math.ceil(total / limit)
+  return {
+    data: tickets,
+    meta: {total, page, limit, totalPages}
+  }
 }
 
 export const deleteUnique = async ({ticketNumber, userRole}:{ticketNumber:number, userRole:UserRole}) => {

@@ -22,8 +22,9 @@ const Tickets = () => {
     setError(null)
     const fetchData = async () => {
       try {
-        const response = await instance.get('/tickets');
-        const responseData = response.data.data
+        const response = await instance.get('/tickets', {params: {page: 1}});
+        const responseData = response.data.data.data;
+        const responseMeta = response.data.data.meta;
         setTickets(responseData)
       } catch (err) {
         if(isAxiosError(err)) {
@@ -39,7 +40,7 @@ const Tickets = () => {
   }, [])
   return (
     <>
-    <h1>Tickets</h1>
+    <h1><a href="">Tickets</a></h1>
     <p>{error}</p>
     {loading && <p>Carregando tickets</p>}
     <div className={styles.container}>
