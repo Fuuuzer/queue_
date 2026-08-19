@@ -18,18 +18,23 @@ const CreateTicketForm = () => {
 
    if(title === '' || description === '') {
     setFeedback({type: 'error', message: 'É necessário preencher todos os camos para registrar o ticket! /n :| '})
+    return
    }
-   
+
    try {
     const response = await createTicket({title, description})
-    const ticket = response.data;
-    setFeedback({type: 'success', message: 'Ticket criado com sucesso!'})
-    console.log(ticket)
+    const ticketData = response.data;
+    if(!response.success) {
+      setFeedback({type: 'error', message: response.message})
+    } else {
+      setFeedback({type: 'success', message: response.message})
+      
+    }
+    console.log(ticketData)
    } catch (err) {
     if(isAxiosError(err)) {
-      console.error(err.response?.status)
+      setFeedback({type: 'error', message: err.response?.data.message})
     } else {
-      console.error(err)
       setFeedback({type: 'error', message: 'Ocorreu um erro ao registrar o ticket'})
     }
   }
@@ -40,7 +45,6 @@ const CreateTicketForm = () => {
     <form onSubmit={handleSubmit}>
       {feedback && <p style={{color: feedback.type === 'error' ? 'red' : 'green'}} >{feedback.message}</p>}
       <label htmlFor="title">Como podemos lhe ajudar?</label>
-
       <input 
         id='title' 
         type="text" 
@@ -48,7 +52,6 @@ const CreateTicketForm = () => {
         onChange={(e) => setTitle(e.target.value)} />
 
       <label htmlFor="description">Descrição</label>
-      
       <textarea 
         name="descriptio0n" 
         id="description" 
