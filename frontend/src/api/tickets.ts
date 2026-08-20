@@ -20,6 +20,7 @@ interface ResponseTicketApi {
 
 export const createTicket = async (ticketData: NewTicket) => {
   const response = await instance.post<ResponseTicketApi>('/tickets', ticketData)
-  console.log(response)
+  const apiResponse = response.data
+  return apiResponse
 }
 
