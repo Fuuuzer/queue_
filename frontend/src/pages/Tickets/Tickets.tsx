@@ -25,6 +25,7 @@ const Tickets = () => {
         const response = await instance.get('/tickets', {params: {page: 1}});
         const responseData = response.data.data.data;
         const responseMeta = response.data.data.meta;
+
         setTickets(responseData)
       } catch (err) {
         if(isAxiosError(err)) {
