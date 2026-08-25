@@ -2,6 +2,7 @@ import React from 'react'
 import instance from '../../api/api'
 import { isAxiosError } from 'axios'
 import styles from './Tickets.module.css'
+import { useSearchParams } from 'react-router-dom'
 
 
 interface TicketData {
@@ -17,14 +18,33 @@ const Tickets = () => {
   const [tickets, setTickets] = React.useState<TicketData[]>([])
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+   const pageFromUrl = Number(searchParams.get('page')) || 1;
+
+  function nextPage() {
+    setSearchParams(prev => {
+      prev.set('page', String(pageFromUrl + 1))
+      return prev
+    })
+  }
+
+ function previousPage() {
+    setSearchParams(prev => {
+      prev.set('page', String(pageFromUrl - 1))
+      return prev
+    })
+  }
 
   React.useEffect(() => {
+
     setError(null)
     const fetchData = async () => {
       try {
-        const response = await instance.get('/tickets', {params: {page: 1}});
+        const response = await instance.get('/tickets', {params: {page: pageFromUrl}});
         const responseData = response.data.data.data;
         const responseMeta = response.data.data.meta;
+        // console.log(responseMeta)
+        // console.log(responseData)
 
         setTickets(responseData)
       } catch (err) {
@@ -38,7 +58,7 @@ const Tickets = () => {
       }
     }
     fetchData()
-  }, [])
+  }, [pageFromUrl])
   return (
     <>
     <h1><a href="">Tickets</a></h1>
@@ -54,6 +74,8 @@ const Tickets = () => {
       ))
     }
     </div>
+     <button onClick={previousPage}>Anterior</button>
+      <button onClick={nextPage}>Próximo</button>
     </>
   )
 }

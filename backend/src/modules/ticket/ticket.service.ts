@@ -34,7 +34,7 @@ export const createTicket = async (data: {
 }
 
 export const listTickets = async ({page, status, ticketNumber, userId, userRole}: {page:number, status?:string, ticketNumber?:number, userId: string, userRole: UserRole}) => {
-  const limit = 20;
+  const limit = 10;
   const offset = (page - 1) * limit;
   const where: Record<string, any> = {};
   if(userRole === 'USER'){
