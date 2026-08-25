@@ -63,7 +63,8 @@ const Tickets = () => {
     <>
     <h1><a href="">Tickets</a></h1>
     <p>{error}</p>
-    { (loading && <p>Carregando tickets</p> ) ||
+    { (loading && <p>Carregando tickets</p>) 
+    ||
     (<div className={styles.container}>
     {tickets.map(ticket => (
        <div className={styles.ticket} key={ticket.id}>
