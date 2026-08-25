@@ -19,10 +19,11 @@ const Tickets = () => {
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [searchParams, setSearchParams] = useSearchParams();
-   const pageFromUrl = Number(searchParams.get('page')) || 1;
+  const pageFromUrl = Number(searchParams.get('page')) || 1;
 
   function nextPage() {
     setSearchParams(prev => {
+
       prev.set('page', String(pageFromUrl + 1))
       return prev
     })
@@ -30,6 +31,10 @@ const Tickets = () => {
 
  function previousPage() {
     setSearchParams(prev => {
+      if(pageFromUrl === 0){
+        console.log('erro hahahaha')
+         return prev
+      }
       prev.set('page', String(pageFromUrl - 1))
       return prev
     })
@@ -74,8 +79,8 @@ const Tickets = () => {
       ))
     }
     </div>
-     <button onClick={previousPage}>Anterior</button>
-      <button onClick={nextPage}>Próximo</button>
+     <button onClick={previousPage} disabled={pageFromUrl === 1} >Anterior</button>
+      <button onClick={nextPage} >Próximo</button>
     </>
   )
 }
