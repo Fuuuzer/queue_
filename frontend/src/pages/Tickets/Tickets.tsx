@@ -4,7 +4,6 @@ import { isAxiosError } from 'axios'
 import styles from './Tickets.module.css'
 import { useSearchParams } from 'react-router-dom'
 
-
 interface TicketData {
   id: string,
   title: string,
@@ -19,38 +18,34 @@ const Tickets = () => {
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [totalPages, setTotalPages] = React.useState<number| null>(null)
   const pageFromUrl = Number(searchParams.get('page')) || 1;
 
   function nextPage() {
+    setLoading(true)
     setSearchParams(prev => {
-
       prev.set('page', String(pageFromUrl + 1))
+      setLoading(false)
       return prev
     })
   }
 
  function previousPage() {
     setSearchParams(prev => {
-      if(pageFromUrl === 0){
-        console.log('erro hahahaha')
-         return prev
-      }
       prev.set('page', String(pageFromUrl - 1))
       return prev
     })
   }
 
   React.useEffect(() => {
-
     setError(null)
+    setLoading(true)
     const fetchData = async () => {
       try {
         const response = await instance.get('/tickets', {params: {page: pageFromUrl}});
         const responseData = response.data.data.data;
         const responseMeta = response.data.data.meta;
-        // console.log(responseMeta)
-        // console.log(responseData)
-
+        setTotalPages(responseMeta.totalPages)
         setTickets(responseData)
       } catch (err) {
         if(isAxiosError(err)) {
@@ -68,8 +63,8 @@ const Tickets = () => {
     <>
     <h1><a href="">Tickets</a></h1>
     <p>{error}</p>
-    {loading && <p>Carregando tickets</p>}
-    <div className={styles.container}>
+    { (loading && <p>Carregando tickets</p> ) ||
+    (<div className={styles.container}>
     {tickets.map(ticket => (
        <div className={styles.ticket} key={ticket.id}>
         <h1>{ticket.title}</h1>
@@ -79,8 +74,9 @@ const Tickets = () => {
       ))
     }
     </div>
+      )}
      <button onClick={previousPage} disabled={pageFromUrl === 1} >Anterior</button>
-      <button onClick={nextPage} >Próximo</button>
+      <button onClick={nextPage} disabled={pageFromUrl === totalPages}>Próximo</button>
     </>
   )
 }
