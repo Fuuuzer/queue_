@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Tickets from './pages/Tickets/Tickets'
 import ProtectedRoute from './components/ProtectedRoute'
 import CreateTicketForm from './pages/CreateTicket/CreateTicket'
+import Register from './pages/Register/Register'
 function App() {
 
   return (
@@ -17,6 +18,10 @@ function App() {
           <Route path='/login' element={
             <ProtectedRoute requireAuth={false} navigateTo='/tickets'>
               <Login />
+            </ProtectedRoute> } />
+            <Route path='/register' element={
+            <ProtectedRoute requireAuth={false} navigateTo='/tickets'>
+              <Register />
             </ProtectedRoute> } />
           <Route path='/tickets' element={ 
             <ProtectedRoute requireAuth={true}>

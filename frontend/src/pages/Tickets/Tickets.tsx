@@ -22,10 +22,8 @@ const Tickets = () => {
   const pageFromUrl = Number(searchParams.get('page')) || 1;
 
   function nextPage() {
-    setLoading(true)
     setSearchParams(prev => {
       prev.set('page', String(pageFromUrl + 1))
-      setLoading(false)
       return prev
     })
   }
@@ -63,9 +61,8 @@ const Tickets = () => {
     <>
     <h1><a href="">Tickets</a></h1>
     <p>{error}</p>
-    { (loading && <p>Carregando tickets</p> ) ||
-    (<div className={styles.container}>
-    {tickets.map(ticket => (
+    { loading ? <p>Carregando tickets</p> : <div className={styles.container}>
+      {tickets.map(ticket => (
        <div className={styles.ticket} key={ticket.id}>
         <h1>{ticket.title}</h1>
         <p>{ticket.description}</p>
@@ -73,8 +70,7 @@ const Tickets = () => {
        </div>
       ))
     }
-    </div>
-      )}
+    </div>}
      <button onClick={previousPage} disabled={pageFromUrl === 1} >Anterior</button>
       <button onClick={nextPage} disabled={pageFromUrl === totalPages}>Próximo</button>
     </>
