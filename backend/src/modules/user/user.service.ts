@@ -3,8 +3,6 @@ import AppError from "../../errors/AppError";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-
-
 export const getUsers = ({page, name} : {page:number, name:string}) => {
     const limit = 10;
     const offset = (page - 1) * 10;
@@ -22,7 +20,8 @@ export const getUsers = ({page, name} : {page:number, name:string}) => {
 export const createUser = async (data: {
   name: string;
   email: string;
-  password: string
+  password: string;
+
 }) => {
   if(!data.name || !data.email || !data.password){
     throw new AppError('É necessário preencher um nome, email e senha.', 400)
@@ -46,6 +45,6 @@ export const createUser = async (data: {
     email: data.email,
     password: hashedPassword,
    },
-   select: {name: true, email: true}
+   select: {id: true, name: true, email: true, role: true}
 })
 }
