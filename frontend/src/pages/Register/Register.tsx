@@ -1,4 +1,5 @@
 import React from 'react'
+import { CreateUser } from '../../api/register';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -11,8 +12,8 @@ const Register = () => {
       setIsRunning(true);
       e.preventDefault();
       try {
-        const response = 1;
-        console.log(response)
+        const userResp = await CreateUser({name, email, password})
+        console.log(userResp)
       } catch (err) {
         } finally {
           setIsRunning(false)
