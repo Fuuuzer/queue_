@@ -14,8 +14,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    // utilizei generics, para definir o tipo do estado, que pode ser string ou null.
   const [token, setToken] = React.useState<string | null>(() =>{
     const tokenStored = localStorage.getItem("token");
-    if(isTokenExpired(tokenStored)) {
-      console.log(tokenStored) 
+    if(isTokenExpired(tokenStored)) { 
       localStorage.removeItem('token')
       return null
     }
