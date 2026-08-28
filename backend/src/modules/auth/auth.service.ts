@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
-import jwt from 'jsonwebtoken';
+import { generateToken } from "../token/token";
 
 export const userValidate = async (data:
   {email: string; password:string;} ) => {
@@ -23,19 +23,10 @@ if(!validate) {
   throw new AppError('usuario invalido', 401);
 } 
 
-const token = jwt.sign(
-{
-  sub: hasUser.id,
-  role: hasUser.role
-},
-process.env.JWT_SECRET!,
-{
-  expiresIn: '1d'
-}
-)
+const token = generateToken(hasUser.id, hasUser.name)
 
 return {
-  token,
+  token: token,
     user: {
     id: hasUser.id,
     name: hasUser.name,

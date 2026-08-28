@@ -1,7 +1,6 @@
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 export const getUsers = ({page, name} : {page:number, name:string}) => {
     const limit = 10;
