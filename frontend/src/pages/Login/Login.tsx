@@ -21,6 +21,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await  AuthLogin({email, password});
+      console.log(response)
       login(response.token);
       setFeedback({type: 'success', message: 'Usuário logado com sucesso!'})
     } catch (err) {
