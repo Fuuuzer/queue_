@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
-import { generateToken } from "../token/token";
 
 export const userValidate = async (data:
   {email: string; password:string;} ) => {
@@ -23,10 +22,7 @@ if(!validate) {
   throw new AppError('usuario invalido', 401);
 } 
 
-const token = generateToken(hasUser.id, hasUser.name)
-
 return {
-  token: token,
     user: {
     id: hasUser.id,
     name: hasUser.name,

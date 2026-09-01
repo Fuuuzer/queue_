@@ -1,15 +1,17 @@
 import { userValidate } from "./auth.service";
+import { generateToken } from "../token/token";
 import { Request, Response } from "express";
 
 export const validate = async(
   req: Request,
   res:  Response
 ) => {
-  const user = await userValidate(req.body);
+  const { user } = await userValidate(req.body);
+  const token = generateToken({id: user.id, role: user.role})
   res.status(201)
   .json({
     success: true, 
-    data: user,
+    data: {user, token},
     message: 'fazendo login'
   });
 }
