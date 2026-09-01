@@ -28,6 +28,7 @@ export const CreateUser = async (registerUserCredentials: RegisterCredentials) =
 
   const response = await instance.post<ResponseApi>('/users', registerUserCredentials);
   const {data: userData, message: userMessage} = response.data;
+  console.log({user: userData.user, message: userMessage, token: userData.token})
 
   return {user: userData.user, message: userMessage, token: userData.token}
 }

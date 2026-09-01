@@ -1,6 +1,7 @@
 import { prisma } from "../../database/prisma";
 import AppError from "../../errors/AppError";
 import bcrypt from 'bcryptjs';
+import { generateToken } from "../token/token";
 
 export const getUsers = ({page, name} : {page:number, name:string}) => {
     const limit = 10;
