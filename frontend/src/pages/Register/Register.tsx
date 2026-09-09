@@ -1,6 +1,7 @@
 import React from 'react'
 import { CreateUser } from '../../api/register';
 import { useAuth } from '../../contexts/AuthContext';
+import { isAxiosError } from 'axios';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -18,10 +19,15 @@ const Register = () => {
         console.log(userResp)
         login(userResp.token)
       } catch (err) {
-        } finally {
-          setIsRunning(false)
-        } 
+         if (isAxiosError(err)) {
+            console.error(err)   
+        } else {
+          console.error('deu um erro')
       }
+      } finally {
+        setIsRunning(false)
+      }
+    }
 
   return (
      <form onSubmit={handleSubmit}>
