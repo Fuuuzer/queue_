@@ -1,10 +1,12 @@
 import React from 'react'
 import { CreateUser } from '../../api/register';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Register = () => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { login } = useAuth();
   const [isRunning, setIsRunning] = React.useState<boolean>(false);
 
   
@@ -14,6 +16,7 @@ const Register = () => {
       try {
         const userResp = await CreateUser({name, email, password})
         console.log(userResp)
+        login(userResp.token)
       } catch (err) {
         } finally {
           setIsRunning(false)

@@ -6,6 +6,5 @@ const router = Router();
 
 router.post('/login', validate);
 router.get('/me', authHandler, validateMe)
-// console.log('teste')
 
 export {router as authRoutes}
