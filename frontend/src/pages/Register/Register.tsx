@@ -3,12 +3,18 @@ import { CreateUser } from '../../api/register';
 import { useAuth } from '../../contexts/AuthContext';
 import { isAxiosError } from 'axios';
 
+interface Feedback {
+  type: 'error' | 'success';
+  message: string;
+}
+
 const Register = () => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const { login } = useAuth();
   const [isRunning, setIsRunning] = React.useState<boolean>(false);
+  const [feedback, setFeedback] = React.useState<Feedback | null>(null)
 
   
      async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -18,11 +24,12 @@ const Register = () => {
         const userResp = await CreateUser({name, email, password})
         console.log(userResp)
         login(userResp.token)
+        setFeedback({type: 'success', message: 'Usuário cadastrado com sucesso!'})
       } catch (err) {
          if (isAxiosError(err)) {
-            console.error(err)   
+           setFeedback({type:'error',  message:err.response?.data.message}); //Erro do axios
         } else {
-          console.error('deu um erro')
+          setFeedback({type: 'error', message:'Houve um erro ao fazer o cadastro'})
       }
       } finally {
         setIsRunning(false)
@@ -31,6 +38,7 @@ const Register = () => {
 
   return (
      <form onSubmit={handleSubmit}>
+      {feedback && <p style={{color: feedback.type === 'error' ? 'red' : 'green'}} >{feedback.message}</p>}
       <label htmlFor="email">Name</label>
       <input
         id='name'
