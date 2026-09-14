@@ -1,4 +1,5 @@
 import React from 'react'
+import { RegisterUser } from '../../api/register';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -11,9 +12,10 @@ const Register = () => {
       setIsRunning(true);
       e.preventDefault();
       try {
-        const response = 1;
+        const response = await RegisterUser({name, email, password})
         console.log(response)
       } catch (err) {
+        console.error(err)
         } finally {
           setIsRunning(false)
         } 
@@ -21,10 +23,10 @@ const Register = () => {
 
   return (
      <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Name</label>
+      <label htmlFor="name">Name</label>
       <input
         id='name'
-        type="name"
+        type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
