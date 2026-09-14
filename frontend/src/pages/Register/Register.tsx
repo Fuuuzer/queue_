@@ -1,29 +1,45 @@
 import React from 'react'
-import { RegisterUser } from '../../api/register';
+import { CreateUser } from '../../api/register';
+import { useAuth } from '../../contexts/AuthContext';
+import { isAxiosError } from 'axios';
+
+interface Feedback {
+  type: 'error' | 'success';
+  message: string;
+}
 
 const Register = () => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { login } = useAuth();
   const [isRunning, setIsRunning] = React.useState<boolean>(false);
+  const [feedback, setFeedback] = React.useState<Feedback | null>(null)
 
   
      async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       setIsRunning(true);
       e.preventDefault();
       try {
-        const response = await RegisterUser({name, email, password})
-        console.log(response)
+        const userResp = await CreateUser({name, email, password})
+        console.log(userResp)
+        login(userResp.token)
+        setFeedback({type: 'success', message: 'Usuário cadastrado com sucesso!'})
       } catch (err) {
-        console.error(err)
-        } finally {
-          setIsRunning(false)
-        } 
+         if (isAxiosError(err)) {
+           setFeedback({type:'error',  message:err.response?.data.message}); //Erro do axios
+        } else {
+          setFeedback({type: 'error', message:'Houve um erro ao fazer o cadastro'})
       }
+      } finally {
+        setIsRunning(false)
+      }
+    }
 
   return (
      <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name</label>
+      {feedback && <p style={{color: feedback.type === 'error' ? 'red' : 'green'}} >{feedback.message}</p>}
+      <label htmlFor="email">Name</label>
       <input
         id='name'
         type="text"
@@ -46,6 +62,7 @@ const Register = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)} />
       <button type="submit" disabled={isRunning}>Enviar</button>
+      <p>Já possui login? <a href="/login">Login</a> </p>
     </form>
   )
 }

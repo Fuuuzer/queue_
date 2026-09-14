@@ -7,8 +7,20 @@ interface RegisterCredentials {
 }
 
 interface RegisterUserData {
+  user: User;
+  token: string;
+}
+
+interface User {
+  id: string;
+  name: string;
   email: string;
-  name: string
+  role: string;
+}
+
+interface UserData {
+  user: User;
+  token: string;
 }
 
 interface ResponseApi {
@@ -20,4 +32,12 @@ interface ResponseApi {
 export const RegisterUser = async (credentials: RegisterCredentials) => {
   const response = await instance.post<ResponseApi>('/users', credentials);
   return response
+}
+
+
+export const CreateUser = async (registerUserCredentials: RegisterCredentials) => {
+
+  const response = await instance.post<ResponseApi>('/users', registerUserCredentials);
+  const {data: userData, message: userMessage} = response.data;
+  return {user: userData.user, message: userMessage, token: userData.token}
 }
