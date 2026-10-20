@@ -17,7 +17,7 @@ const CreateTicketForm = () => {
    setFeedback(null)
 
    if(title === '' || description === '') {
-    setFeedback({type: 'error', message: 'É necessário preencher todos os camos para registrar o ticket! /n :| '})
+    setFeedback({type: 'error', message: 'É necessário preencher todos os camops para registrar o ticket! /n :| '})
     return
    }
 
